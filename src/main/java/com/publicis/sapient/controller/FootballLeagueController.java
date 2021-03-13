@@ -103,14 +103,26 @@ public class FootballLeagueController {
 	@RequestMapping(value = "/getLeaguePosition", method = RequestMethod.GET)
 	public ResponseEntity getLeagePositionOfTeamByLeagueId(@RequestParam String leagueId, @RequestParam String teamName) throws JsonMappingException, JsonProcessingException {
 		
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
-		headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl)
 		        .queryParam(URLConstants.ACTION, URLConstants.GET_STANDINGS)
 		        .queryParam(URLConstants.LEAGUE_ID, leagueId)
 		        .queryParam(URLConstants.API_KEY, api_key);
+		
+		ResponseEntity<String> response = restClient(builder);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		List<StandingDetail> leagueList = Arrays.asList(mapper.readValue(response.getBody().toString(), StandingDetail[].class));
+		
+		Optional<StandingDetail> standingResult = leagueList.stream().filter(standingDetails -> standingDetails.getTeamName().equalsIgnoreCase(teamName)).findFirst();
+		
+		return standingResult.isPresent() ? ResponseEntity.status(HttpStatus.OK).body(standingResult.get()) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("League position associated with lead id \"" + leagueId + "\" and team name " + "\"" + teamName + "\" not found");
+	}
+
+	private ResponseEntity<String> restClient(UriComponentsBuilder builder) {
+		HttpHeaders headers = new HttpHeaders();
+		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+		headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
 
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 
@@ -119,13 +131,7 @@ public class FootballLeagueController {
 		        HttpMethod.GET,
 		        entity,
 		        String.class);
-		
-		ObjectMapper mapper = new ObjectMapper();
-		List<StandingDetail> leagueList = Arrays.asList(mapper.readValue(response.getBody().toString(), StandingDetail[].class));
-		
-		Optional<StandingDetail> standingResult = leagueList.stream().filter(standingDetails -> standingDetails.getTeamName().equalsIgnoreCase(teamName)).findFirst();
-		
-		return standingResult.isPresent() ? ResponseEntity.status(HttpStatus.OK).body(standingResult.get()) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("League position associated with lead id \"" + leagueId + "\" and team name " + "\"" + teamName + "\" not found");
+		return response;
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
