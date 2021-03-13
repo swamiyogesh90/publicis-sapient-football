@@ -4,6 +4,6 @@ WORKDIR /opt/app
 
 ARG JAR_FILE=target/*.jar
 
-COPY ${JAR_FILE} app.jar
+COPY --from=build /home/app/target/war_name.war app.jar
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
