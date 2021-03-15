@@ -42,7 +42,7 @@ public class FootballLeagueController {
 	private String api_key;
 
 	@RequestMapping(value = "/getCountryCode", method = RequestMethod.GET)
-	public ResponseEntity<String> getAllCountryCodeByName(@RequestParam String countryName) throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity<String> getAllCountryCodeByName(@RequestParam final String countryName) throws JsonMappingException, JsonProcessingException {
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -69,7 +69,7 @@ public class FootballLeagueController {
 	}
 	
 	@RequestMapping(value = "/getLeagueId", method = RequestMethod.GET)
-	public ResponseEntity<String> getLeaguesByCountryId(@RequestParam String countryId, @RequestParam String leagueName) throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity<String> getLeaguesByCountryId(@RequestParam final String countryId, @RequestParam final String leagueName) throws JsonMappingException, JsonProcessingException {
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
@@ -100,7 +100,7 @@ public class FootballLeagueController {
 	
 	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/getLeaguePosition", method = RequestMethod.GET)
-	public ResponseEntity getLeagePositionOfTeamByLeagueId(@RequestParam String leagueId, @RequestParam String teamName) throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity getLeagePositionOfTeamByLeagueId(@RequestParam final String leagueId, @RequestParam final String teamName) throws JsonMappingException, JsonProcessingException {
 		
 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl)
@@ -135,7 +135,7 @@ public class FootballLeagueController {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@RequestMapping(value = "/getTeamStanding", method = RequestMethod.GET)
-	public ResponseEntity getTeamStanding(@RequestParam(required=true) String countryName, @RequestParam(required=true) String leagueName, @RequestParam(required=true) String teamName) throws JsonMappingException, JsonProcessingException {
+	public ResponseEntity getTeamStanding(@RequestParam(required=true) final String countryName, @RequestParam(required=true) final String leagueName, @RequestParam(required=true) final String teamName) throws JsonMappingException, JsonProcessingException {
 		
 		StandingDetail leaguePosition = null;
 		ResponseEntity<String> countryCodeResponse = getAllCountryCodeByName(countryName);
