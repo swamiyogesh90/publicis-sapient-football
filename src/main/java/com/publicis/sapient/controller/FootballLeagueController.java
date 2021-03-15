@@ -14,7 +14,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -134,9 +133,9 @@ public class FootballLeagueController {
 		return response;
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/getTeamStanding/{countryName}/{leagueName}/{teamName}", method = RequestMethod.GET)
-	public ResponseEntity getTeamStanding(@PathVariable("countryName") String countryName, @PathVariable("leagueName") String leagueName, @PathVariable("teamName") String teamName) throws JsonMappingException, JsonProcessingException {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(value = "/getTeamStanding", method = RequestMethod.GET)
+	public ResponseEntity getTeamStanding(@RequestParam(required=true) String countryName, @RequestParam(required=true) String leagueName, @RequestParam(required=true) String teamName) throws JsonMappingException, JsonProcessingException {
 		
 		StandingDetail leaguePosition = null;
 		ResponseEntity<String> countryCodeResponse = getAllCountryCodeByName(countryName);
