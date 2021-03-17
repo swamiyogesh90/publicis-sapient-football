@@ -41,7 +41,7 @@ public class FootballLeagueController {
 	@Value("${api_key}")
 	private String api_key;
 
-	@RequestMapping(value = "/getCountryCode", method = RequestMethod.GET)
+	@RequestMapping(value = "/countryCode", method = RequestMethod.GET)
 	public ResponseEntity<String> getAllCountryCodeByName(@RequestParam final String countryName) throws JsonMappingException, JsonProcessingException {
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -68,7 +68,7 @@ public class FootballLeagueController {
 		return country.isPresent() ? ResponseEntity.status(HttpStatus.OK).body(country.get().getCountryId()) : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Country associated with country name \"" + countryName + "\" Not Found");
 	}
 	
-	@RequestMapping(value = "/getLeagueId", method = RequestMethod.GET)
+	@RequestMapping(value = "/leagueId", method = RequestMethod.GET)
 	public ResponseEntity<String> getLeaguesByCountryId(@RequestParam final String countryId, @RequestParam final String leagueName) throws JsonMappingException, JsonProcessingException {
 		
 		HttpHeaders headers = new HttpHeaders();
@@ -99,7 +99,7 @@ public class FootballLeagueController {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	@RequestMapping(value = "/getLeaguePosition", method = RequestMethod.GET)
+	@RequestMapping(value = "/leaguePosition", method = RequestMethod.GET)
 	public ResponseEntity getLeagePositionOfTeamByLeagueId(@RequestParam final String leagueId, @RequestParam final String teamName) throws JsonMappingException, JsonProcessingException {
 		
 
@@ -134,7 +134,7 @@ public class FootballLeagueController {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@RequestMapping(value = "/getTeamStanding", method = RequestMethod.GET)
+	@RequestMapping(value = "/teamStanding", method = RequestMethod.GET)
 	public ResponseEntity getTeamStanding(@RequestParam(required=true) final String countryName, @RequestParam(required=true) final String leagueName, @RequestParam(required=true) final String teamName) throws JsonMappingException, JsonProcessingException {
 		
 		StandingDetail leaguePosition = null;
